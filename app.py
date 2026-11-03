@@ -98,8 +98,15 @@ with st.sidebar:
     email_usuario = st.text_input(
         "Tu correo (requerido por Crossref/OpenAlex):",
         value=correo_por_defecto(),
-        help="Solo se usa para identificarte ante las APIs (Polite Pool). No se almacena.",
+        help="Solo se usa para identificarte ante las APIs (Polite Pool). No se almacena. Pulsa Enter para confirmarlo.",
     )
+    # Confirmación visible del correo
+    if not email_usuario.strip():
+        st.caption("✉️ Escribe tu correo y pulsa Enter.")
+    elif EMAIL_RE.match(email_usuario.strip()):
+        st.success(f"✅ Correo registrado: {email_usuario.strip()}")
+    else:
+        st.warning("⚠️ El correo no parece válido.")
     metodo = st.radio(
         "Separación de citas:",
         ["Automática (sin API Key)", "Con Gemini 2.5 Flash (opcional)"],
